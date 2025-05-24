@@ -2,7 +2,14 @@ import { Component } from '@angular/core';
 
 import {AgGridAngular} from 'ag-grid-angular';
 import {IRow} from './models/i-row';
-import {AllCommunityModule, ColDef, GridReadyEvent, ModuleRegistry, ValueFormatterParams} from 'ag-grid-community';
+import {
+  AllCommunityModule,
+  CellChangedEvent, CellValueChangedEvent,
+  ColDef,
+  GridReadyEvent,
+  ModuleRegistry,
+  ValueFormatterParams
+} from 'ag-grid-community';
 import {HttpClient} from '@angular/common/http';
 import {CompanyLogoRendererComponent} from './components/company-logo-renderer/company-logo-renderer.component';
 
@@ -36,7 +43,8 @@ export class AppComponent {
   ];
 
   defaultColDef: ColDef = {
-    filter: true
+    filter: true,
+    editable:true
   }
 
   constructor(private http:HttpClient) {}
@@ -45,5 +53,9 @@ export class AppComponent {
 
     this.http.get<any[]>('https://www.ag-grid.com/example-assets/space-mission-data.json')
       .subscribe(data => this.rowData = data)
+  }
+
+  onCellValueChanged(event:CellValueChangedEvent) {
+    console.log(event.value);
   }
 }
