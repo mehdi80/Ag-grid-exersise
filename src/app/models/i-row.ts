@@ -1,10 +1,6 @@
 export interface IRow {
-  mission: string;
-  company: string;
-  location: string;
-  date: string;
-  time: string;
-  rocket: string;
+  make: string;
+  model: string;
   price: number;
-  successful: boolean;
+  electric: boolean;
 }
