@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 
 import {AgGridAngular} from 'ag-grid-angular';
 import {IRow} from './models/i-row';
-import {AllCommunityModule, ColDef, ModuleRegistry} from 'ag-grid-community';
+import {AllCommunityModule, ColDef, GridReadyEvent, ModuleRegistry} from 'ag-grid-community';
+import {HttpClient} from '@angular/common/http';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -15,17 +16,24 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 })
 export class AppComponent {
   title = 'ag-grid-exercise';
-  rowData: IRow[] = [
-    { make: "Tesla", model: "Model Y", price: 64950, electric: true },
-    { make: "Ford", model: "F-Series", price: 33850, electric: false },
-    { make: "Toyota", model: "Corolla", price: 29600, electric: false },
-  ];
+  rowData: IRow[] = [];
 
-  colDefs: ColDef<IRow>[] = [
-    { field: "make" },
-    { field: "model" },
+  colDefs: ColDef[] = [
+    { field: "mission" },
+    { field: "company" },
+    { field: "location" },
+    { field: "date" },
     { field: "price" },
-    { field: "electric" },
+    { field: "successful" },
+    { field: "rocket" }
   ];
 
+  constructor(private http:HttpClient) {
+  }
+
+  onGridReady(params:GridReadyEvent) {
+
+    this.http.get<any[]>('https://www.ag-grid.com/example-assets/space-mission-data.json')
+      .subscribe(data => this.rowData = data)
+  }
 }
