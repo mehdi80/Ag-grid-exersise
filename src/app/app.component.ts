@@ -4,6 +4,7 @@ import {AgGridAngular} from 'ag-grid-angular';
 import {IRow} from './models/i-row';
 import {AllCommunityModule, ColDef, GridReadyEvent, ModuleRegistry, ValueFormatterParams} from 'ag-grid-community';
 import {HttpClient} from '@angular/common/http';
+import {CompanyLogoRendererComponent} from './components/company-logo-renderer/company-logo-renderer.component';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -20,7 +21,9 @@ export class AppComponent {
 
   colDefs: ColDef[] = [
     { field: "mission"},
-    { field: "company" },
+    { field: "company",
+      cellRenderer: CompanyLogoRendererComponent
+    },
     { field: "location" },
     { field: "date" },
     { field: "price" ,
