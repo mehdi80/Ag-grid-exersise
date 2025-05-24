@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import {AgGridAngular} from 'ag-grid-angular';
 import {IRow} from './models/i-row';
-import {AllCommunityModule, ColDef, GridReadyEvent, ModuleRegistry} from 'ag-grid-community';
+import {AllCommunityModule, ColDef, GridReadyEvent, ModuleRegistry, ValueFormatterParams} from 'ag-grid-community';
 import {HttpClient} from '@angular/common/http';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -19,17 +19,24 @@ export class AppComponent {
   rowData: IRow[] = [];
 
   colDefs: ColDef[] = [
-    { field: "mission" },
+    { field: "mission"},
     { field: "company" },
     { field: "location" },
     { field: "date" },
-    { field: "price" },
+    { field: "price" ,
+      valueFormatter: (params:ValueFormatterParams) =>{
+      return "$" + params.value.toLocaleString();
+      }
+    },
     { field: "successful" },
-    { field: "rocket" }
+    { field: "rocket" },
   ];
 
-  constructor(private http:HttpClient) {
+  defaultColDef: ColDef = {
+    filter: true
   }
+
+  constructor(private http:HttpClient) {}
 
   onGridReady(params:GridReadyEvent) {
 
